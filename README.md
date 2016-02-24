@@ -41,7 +41,7 @@ Add BehatFormatter to the list of dependencies inside your `composer.json`.
 {
     "require": {
         "behat/behat": "3.*@stable",
-        "elkan/behatformatter": "0.1.*",
+        "elkan/behatformatter": "v1.0.*",
     },
     "minimum-stability": "dev",
     "config": {
@@ -124,7 +124,8 @@ class FeatureContext extends elkan\BehatFormatter\Context\BehatFormatterContext
 ## Todo:
 - save html on failures
 - save REST responses in testreport
-- JSON output - if wanted
+- JSON output - if wanted?
+- colors in print stylesheet
 
 ## License and Authors
 
