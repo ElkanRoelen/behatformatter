@@ -126,6 +126,7 @@ class FeatureContext extends elkan\BehatFormatter\Context\BehatFormatterContext
 - save REST responses in testreport
 - JSON output - if wanted?
 - colors in print stylesheet
+- custom footer image/text
 
 ## License and Authors
 
