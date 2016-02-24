@@ -1,0 +1,433 @@
+{% if ((failedScenarios|length) + (passedScenarios|length)) > 0 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Behat Test report: {{ projectname }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Elkan Roelen" >
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/Twig/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome-->
+    <link href="assets/Twig/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Pace -->
+    <link href="assets/Twig/css/pace.css" rel="stylesheet">
+
+    <!-- Datatable -->
+    <link href="assets/Twig/css/jquery.dataTables_themeroller.css" rel="stylesheet">
+
+    <!-- Perfect -->
+    <link href="assets/Twig/css/app.min.css" rel="stylesheet">
+    <link href="assets/Twig/css/app-skin.css" rel="stylesheet">
+
+    <script type="text/javascript">
+        function printReport(){
+            window.focus();
+            window.print();
+        }
+    </script>
+</head>
+<body>
+
+<div id="wrapper" class="">
+    <div id="top-nav" class="skin-6 fixed no-print">
+        <div class="brand">
+
+                <span>{{ projectname }}</span>
+
+        </div><!-- /brand -->
+
+        <ul class="nav-notification clearfix">
+            <li class="">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="expand-all">
+                    <span><i class="fa fa-plus"></i></span>
+                    <strong>Expand Scenario's</strong>
+                </a>
+            </li>
+            <li class="">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="collapse-all">
+                    <span><i class="fa fa-minus"></i></span>
+                    <strong>Collapse Scenario's</strong>
+                </a>
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <span><i class="fa fa-chevron-down"></i></span>
+                <strong>Filter</strong>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a tabindex="-1" href="#" id="feature-all-filter" class="main-link"><i class="fa fa-refresh fa-lg"></i>  Show All</a></li>
+                    <li><a tabindex="-2" href="#" id="feature-passed-filter" class="main-link"><i class="fa fa-check fa-lg"></i>  Show Passed Scenario's</a></li>
+                    <li><a tabindex="-3" href="#" id="feature-failed-filter" class="main-link"><i class="fa fa-times fa-lg"></i>  Show Failed Scenario's</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:printReport();">
+                    <i class="fa fa-print fa-lg"></i>
+                </a>
+            </li>
+        </ul>
+
+    </div><!-- /top-nav-->
+
+    <div id="main-container">
+        <div class="padding-md">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        {% if projectname != null %}
+                        <div class="panel-heading text-center">
+                            <h2>{{ projectname }}</h2>
+                        </div>
+                        {% endif %}
+                        {% if projectimage != null and projectdescription != null %}
+                        <div class="panel-body text-center">
+                            {% if projectimage != null %}
+                            <img src="{{ projectimage }}"><br>
+                            {% endif %}
+                            {{ projectdescription }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2>Behat Test report</h2>
+                        </div>
+                        <table class="table table-hover table-striped">
+                            <tbody>
+                            <tr>
+                                <th>Build on:</th>
+                                <td>
+                                    {{ buildDate }}
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Run</th>
+                                <td>
+                                    <div class="progress progress-striped active" style="height:8px; margin:5px 0 0 0;">
+                                        <div id="label" class="progress-bar progress-bar-success" style="width: 100%">
+                                            <span id="label" class="sr-only">100% Complete</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>100%</td>
+                            </tr>
+                            <tr>
+                                <th>Passed</th>
+                                <td>
+                                    <div class="progress progress-striped active" style="height:8px; margin:5px 0 0 0;">
+
+                                        <div id="label" class="progress-bar progress-bar-success" style="width: {{ (100 /((failedScenarios|length) + (passedScenarios|length))) * (passedScenarios|length) }}%">
+                                            <span id="label" class="sr-only">{{ (100 /((failedScenarios|length) + (passedScenarios|length))) * (passedScenarios|length) }}% Passed</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{ ((100 /((failedScenarios|length) + (passedScenarios|length))) * (passedScenarios|length))|number_format(2, '.', ',') }}%</td>
+                            </tr>
+                            <tr>
+                                <th>Failed</th>
+                                <td>
+
+                                    <div class="progress progress-striped active" style="height:8px; margin:5px 0 0 0;">
+                                        <div id="label" class="progress-bar progress-bar-danger" style="width: {{ (100 /((failedScenarios|length) + (passedScenarios|length))) * (failedScenarios|length) }}%">
+                                            <span id="label" class="sr-only">{{ (100 /((failedScenarios|length) + (passedScenarios|length))) * (failedScenarios|length) }}% failed</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{ ((100 /((failedScenarios|length) + (passedScenarios|length))) * (failedScenarios|length))|number_format(2, '.', ',') }}%</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div><!-- /panel -->
+                </div><!-- /.col -->
+
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2>Test Suites</h2>
+                        </div>
+                        <table class="table table-hover table-striped">
+                            <tbody>
+                            <tr>
+                                <th>Suite</th>
+                                <th>Features</th>
+                                <th>Scenarios</th>
+                                <th>Steps</th>
+                            </tr>
+                            {% for suite in suites %}
+                            {% if suite.features is not empty %}
+                            <tr>
+                                <th>
+                                    {{ suite.name|capitalize }}
+                                </th>
+                                    {% set totalFeatures = 0 %}
+                                    {% set successFeatures = 0 %}
+                                    {% set failedFeatures = 0 %}
+
+                                    {% set totalScenarios = 0 %}
+                                    {% set successScenarios = 0 %}
+                                    {% set failedScenarios = 0 %}
+
+                                    {% set totalSteps = 0 %}
+                                    {% set successSteps = 0 %}
+                                    {% set failedSteps = 0 %}
+                                    {% set skippedSteps = 0 %}
+                                {% for feature in suite.features %}
+                                    {% set totalFeatures = totalFeatures +1 %}
+                                    {% if feature.getPassedClass == 'success' %}
+                                        {% set successFeatures = successFeatures +1 %}
+                                    {% elseif feature.getPassedClass == 'failed' %}
+                                        {% set failedFeatures = failedFeatures +1 %}
+                                    {% endif %}
+                                    {% for scenario in feature.scenarios %}
+                                        {% set totalScenarios = totalScenarios +1 %}
+                                        {% if scenario.isPassed %}
+                                            {% set successScenarios = successScenarios +1 %}
+                                        {% elseif not scenario.isPassed %}
+                                            {% set failedScenarios = failedScenarios +1 %}
+                                        {% endif %}
+                                        {% for step in scenario.steps %}
+                                            {% set totalSteps = totalSteps +1 %}
+                                            {% if step.isPassed %}
+                                                {% set successSteps = successSteps +1 %}
+                                            {% elseif step.isSkipped or step.isPending %}
+                                                {% set skippedSteps = skippedSteps +1 %}
+                                            {% else %}
+                                                {% set failedSteps = failedSteps +1 %}
+                                            {% endif %}
+
+                                        {% endfor %}
+                                    {% endfor %}
+                                {% endfor %}
+                                <td>
+                                    <span id="label" class="label label-default">{% if totalFeatures != '0' %}{{ totalFeatures }} features {% endif %}</span>
+                                    <span id="label" class="label label-success">{% if successFeatures != '0' %}{{ successFeatures }} passed{% endif %}</span>
+                                    <span id="label" class="label label-danger">{% if failedFeatures != '0' %}{{ failedFeatures }} failed{% endif %}</span>
+                                    <span id="label" class="label label-info">{% if (totalFeatures - successFeatures - failedFeatures) != 0 %}{{ (totalFeatures - successFeatures - failedFeatures) }} skipped{% endif %}</span>
+                                </td>
+                                <td>
+                                    <span id="label" class="label label-default">{% if totalScenarios != '0' %}{{ totalScenarios }} scenarios{% endif %}</span>
+                                    <span id="label" class="label label-success">{% if successScenarios != '0' %}{{ successScenarios }} passed{% endif %}</span>
+                                    <span id="label" class="label label-danger">{% if failedScenarios != '0' %}{{ failedScenarios }} failed{% endif %}</span>
+                                    <span id="label" class="label label-info">{% if (totalScenarios - successScenarios - failedScenarios) != '0' %}{{ (totalScenarios - successScenarios - failedScenarios) }} skipped{% endif %}</span>
+                                </td>
+                                <td>
+                                    <span id="label" class="label label-default">{% if totalSteps != '0' %}{{ totalSteps }} steps{% endif %}</span>
+                                    <span id="label" class="label label-success">{% if successSteps != '0' %}{{ successSteps }} passed{% endif %}</span>
+                                    <span id="label" class="label label-danger">{% if failedSteps != '0' %}{{ failedSteps }} failed{% endif %}</span>
+                                    <span id="label" class="label label-info">{% if (totalSteps - successSteps - failedSteps) != '0' %}{{ (totalSteps - successSteps - failedSteps) }} skipped{% endif %}</span>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div><!-- /panel -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+            <div class="row">
+                <div class="col-sm-12">
+                    {% for suite in suites %}
+                    {% if suite.features is not empty %}
+                    <div id="suite">
+                    <div id="page-break" class="page-break"></div>
+                    {#<div class="dd">#}
+                        <div class="panel panel-default panel-suite">
+                            <div class="panel-heading">
+                                <h2>{{ suite.name|capitalize }}</h2>
+                            </div>
+                            <div class="panel-body">
+                                <ol class="dd-list">
+
+                                    {% for feature in suite.features %}
+                                    <div id="collapse-feature" data-role="collapsible" data-inset="false">
+                                    <li data-role="listview" class="dd-item feature {{ feature.getPassedClass }}" data-id="feature-{{ feature.id }}">
+                                        <div class="dd-nodrag dd-{{ feature.getPassedClass }}">Feature: {{ feature.name }}
+                                            {% if printShowTags != false %}
+                                                {% for tag in feature.tags %}
+                                                    <span class="pull-right label label-primary">{{ tag }}</span>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+
+                                        <ol class="dd-list">
+                                            {% if feature.description %}
+                                            <li class="dd-item feature-extra" data-id="featureinfo-{{ feature.id }}">
+                                                <div class="dd-nodrag">
+                                                    <p>{{ feature.description|raw|nl2br }}</p>
+                                                </div>
+                                            </li>
+                                            {% endif %}
+                                        <div class="dd">
+                                        {% for scenario in feature.scenarios %}
+                                            <li class="dd-item scenario {% if scenario.isPassed %}success{% else %}failed{% endif %}" data-id="scenario-{{ feature.id }}-{{ scenario.id }}">
+                                                <div class="dd-nodrag dd-{% if scenario.isPassed %}success{% else %}failed{% endif %}">Scenario: {{ scenario.name }}
+                                                    {% if printShowTags != false %}
+                                                                {% for tag in scenario.tags %}
+                                                                    <span class="pull-right label label-primary">{{ tag }}</span>
+                                                                {% endfor %}
+                                                    {% endif %}
+                                                </div>
+
+                                                <ol class="dd-list">
+                                                     {% for step in scenario.steps %}
+                                                    <li class="dd-item step" data-id="step-{{ feature.id }}-{{ scenario.id }}-{{ step.id }}">
+                                                        <div class="dd-nodrag dd-{% if step.isPassed %}success{% elseif step.isSkipped %}undefined{% elseif step.isPending %}undefined{% else %}failed{% endif %}">
+                                                            <b>{{ step.keyword }}</b> {{ step.text }}
+                                                        </div>
+                                                         {% if (printStepArgs is not null and (step.exception is not null or step.output is not null or step.arguments|length > 0)) or step.screenshot %}
+                                                         <ol class="dd-list">
+                                                             <li class="dd-item step-argument dd-collapsed" data-id="step-{{ feature.id }}-{{ scenario.id }}-{{ step.id }}-argument">
+                                                                 <div class="dd-nodrag dd-{% if step.isPassed %}success{% elseif step.isSkipped %}undefined{% elseif step.isPending %}undefined{% else %}failed{% endif %}">
+                                                                    {% if step.screenshot %}
+                                                                    <img src="{{ step.screenshot | raw }}"><br/>
+                                                                    {% endif %}
+                                                                    {% if printStepArgs is not null %}
+                                                                       {% for argument in step.arguments %}
+                                                                          <p style="padding-left:0.5em; overflow-x:scroll; white-space:nowrap; font-family:monospace">{{ argument | nl2br }}</p>
+                                                                       {% endfor %}
+                                                                    {% endif %}
+                                                                    {% if step.exception is not null %}
+                                                                        <p style="padding-left:2em ; color:gray">({{ step.exception | nl2br }})</p>
+                                                                    {% endif %}
+                                                                    {% if step.output is not null %}
+                                                                        <p style="padding-left:2em ; color:black">| {{ step.output | nl2br }}</p>
+                                                                    {% endif %}
+                                                                 </div>
+                                                             </li>
+                                                         </ol>
+                                                        {% endif %}
+
+                                                        {% if printLoopBreak is not null and ( loop.index % scenario.getLoopSize ) == 0 and loop.last != true  %}
+                                                            </li><li class="list-group-item break">
+                                                        {% endif %}
+                                                    </li>
+                                                    {% endfor %}
+                                                </ol>
+                                            </li>
+                                        {% endfor %}
+                                        </div>
+                                        </ol>
+                                    </li>
+                                    </div>
+                                    {% endfor %}
+
+                                </ol>
+                            </div>
+                        </div>
+                    {#</div><!-- dd -->#}
+                    </div><!-- suite -->
+                    {% endif %}
+                    {% endfor %}
+                </div>
+
+            </div><!-- /.row -->
+        </div><!-- padding -->
+
+        <div class="col-sm-12">
+					<span class="footer-brand">
+					<hr>
+						<a id="footer" href="">This report is generated by <strong id="footer-danger" class="text-danger">Elkan's BehatFormatter</strong></a>
+					</span>
+        </div><!-- /.col -->
+
+    </div><!-- /main-container -->
+
+</div><!-- /wrapper -->
+
+<a href="" id="scroll-to-top" class="hidden-print"><i class="fa fa-chevron-up"></i></a>
+
+<!-- The javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+<!-- Jquery -->
+<script src="assets/Twig/js/jquery-1.10.2.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="assets/Twig/js/bootstrap.min.js"></script>
+
+<!-- Datatable -->
+<script src="assets/Twig/js/jquery.dataTables.min.js"></script>
+<script src="assets/Twig/js/jquery.nestable.min.js"></script>
+
+<!-- Modernizr -->
+<script src="assets/Twig/js/modernizr.min.js"></script>
+
+<!-- Pace -->
+<script src="assets/Twig/js/pace.min.js"></script>
+
+<!-- Slimscroll -->
+<script src="assets/Twig/js/jquery.slimscroll.min.js"></script>
+
+<!-- Cookie -->
+<script src="assets/Twig/js/jquery.cookie.min.js"></script>
+
+<!-- Perfect -->
+<script src="assets/Twig/js/app.js"></script>
+<script>
+    $(function()	{
+        $('.dd').nestable();
+    });
+
+
+    $(function () {
+        $('#expand-all').click(function () {
+            $('.dd').nestable('expandAll');
+        });
+
+        $('#collapse-all').click(function () {
+            $('.dd').nestable('collapseAll');
+        });
+
+        $('.dd').nestable('collapseAll');
+
+        $('#feature-failed-filter').click(function () {
+            $("div#page-break").each(function(){
+                $(this).attr("class", "page-break-no-print");
+            });
+            $('.feature').hide();
+            $('.scenario').hide();
+            $('div.panel-suite').hide();
+            $('.scenario.failed').show();
+            $('.scenario.failed').closest('.feature').show();
+            $('.scenario.failed').closest('div.panel-suite').show();
+            $('.scenario.failed').closest('#suite').find('#page-break').attr("class", "page-break");
+        });
+        $('#feature-passed-filter').click(function () {
+            $("div#page-break").each(function(){
+                $(this).attr("class", "page-break-no-print");
+            });
+            $('.feature').hide();
+            $('.scenario').hide();
+            $('div.panel-suite').hide();
+            $('.scenario.success').show();
+            $('.scenario.success').closest('.feature').show();
+            $('.scenario.success').closest('div.panel-suite').show();
+            $('.scenario.success').closest('#suite').find('div#page-break').attr('class', 'page-break');
+        });
+        $('#feature-all-filter').click(function () {
+            $("div#page-break").each(function(){
+                $(this).attr("class", "page-break");
+            });
+            $('.scenario').show();
+            $('.feature').show();
+            $('div.panel-suite').show();
+        });
+    });
+</script>
+
+</body>
+</html>
+{% endif %}
