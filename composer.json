@@ -1,6 +1,6 @@
 {
-    "name": "elkan/BehatFormatter",
-    "description": "This will create a formatter for Behat 3.",
+    "name": "elkan/behatformatter",
+    "description": "This will create a formatter for Behat 3! Fast easy and pretty!",
     "authors": [
         {
             "name": "Elkan Roelen",
