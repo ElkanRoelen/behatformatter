@@ -1,6 +1,6 @@
 ## BehatFormatter
 
-Behat 3 extension for generating reports from your test results.
+Behat 3 extension for generating AWESOME reports from your test results.
 
 [![Latest Stable Version](https://poser.pugx.org/elkan/behatformatter/v/stable)](https://packagist.org/packages/elkan/behatformatter) [![Total Downloads](https://poser.pugx.org/elkan/behatformatter/downloads)](https://packagist.org/packages/elkan/behatformatter) [![Latest Unstable Version](https://poser.pugx.org/elkan/behatformatter/v/unstable)](https://packagist.org/packages/elkan/behatformatter) [![License](https://poser.pugx.org/elkan/behatformatter/license)](https://packagist.org/packages/elkan/behatformatter)
 
@@ -8,11 +8,20 @@ Behat 3 extension for generating reports from your test results.
 
 ![Twig Screenshot](http://i.imgur.com/SlJuhq3.png)
 
+## Features
+* Create screenshot on failed steps.
+* Create screenshot on result steps (Then).
+* Save source code in html on failed steps (easy debugging).
+* Possibility to set project title, description and logo in the testreport.
+* Print report button
+* Filter on successful or failed scenario's
+
 ## It's easy!!
 
 * This tool can be installed easily with composer.
 * Defining the formatter in the `behat.yml` file
-* Modifying the settings in the `behat.yml`file
+* Modifying the settings in the `behat.yml` file
+* Optional: Update `FeatureContext.php` to generate screenshots.
 
 ## Installation
 

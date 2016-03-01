@@ -259,7 +259,9 @@ class BehatFormatter implements Formatter {
         if (is_dir($destination)) {
             exec("rm -rf ". $destination);
         }
-        rename($source, $destination);
+        if (is_dir($source)) {
+            rename($source, $destination);
+        }
     }
 
     /**

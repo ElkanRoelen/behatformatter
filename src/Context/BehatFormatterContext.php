@@ -81,5 +81,25 @@ class BehatFormatterContext extends MinkContext implements SnippetAcceptingConte
 
             $this->saveScreenshot($fileName, $temp_destination);
         }
+
+        // Let us save the page source code on errors:
+        // It helps us debug the test.
+
+        if(!$scope->getTestResult()->isPassed())
+        {
+            //create filename string
+            $fileName = $currentSuite.".".basename($scope->getFeature()->getFile()).'.'.$scope->getStep()->getLine().'.html';
+            $fileName = str_replace('.feature', '', $fileName);
+
+            $htmlContent = sprintf('<!DOCTYPE html><html>%s</html>', $this->getSession()->getPage()->getHtml());
+
+            $temp_destination = getcwd().DIRECTORY_SEPARATOR.".tmp_behatFormatter";
+            if (! is_dir($temp_destination)) {
+                mkdir($temp_destination, 0777, true);
+            }
+
+            file_put_contents(implode(DIRECTORY_SEPARATOR, array($temp_destination, $fileName)), $htmlContent);
+        }
+
     }
 }
