@@ -257,11 +257,23 @@ class BehatFormatter implements Formatter {
         $destination = $this->printer->getOutputPath() . DIRECTORY_SEPARATOR . 'assets'.DIRECTORY_SEPARATOR.'screenshots';
 
         if (is_dir($destination)) {
-            exec("rm -rf $destination");
+            $this->delTree("$destination");
         }
         if (is_dir($source)) {
             rename($source, $destination);
         }
+    }
+
+    /**
+     * Delete recursive directory
+     * @return true or false
+     */
+    private function delTree($dir) {
+        $files = array_diff(scandir($dir), array('.','..'));
+        foreach ($files as $file) {
+            (is_dir("$dir/$file") && !is_link($dir)) ? $this->delTree("$dir/$file") : unlink("$dir/$file");
+        }
+        return rmdir($dir);
     }
 
     /**
