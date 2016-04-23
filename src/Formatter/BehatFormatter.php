@@ -257,7 +257,7 @@ class BehatFormatter implements Formatter {
         $destination = $this->printer->getOutputPath() . DIRECTORY_SEPARATOR . 'assets'.DIRECTORY_SEPARATOR.'screenshots';
 
         if (is_dir($destination)) {
-            exec("rm -rf '". $destination."'");
+            exec("rm -rf $destination");
         }
         if (is_dir($source)) {
             rename($source, $destination);
