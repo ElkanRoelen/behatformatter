@@ -130,6 +130,43 @@ class FeatureContext extends elkan\BehatFormatter\Context\BehatFormatterContext
 }
 ```
 
+## Extra function: Placeholders
+It is possible to use placeholders in feature steps.
+Add a BeforeStep, BeforeScenario or BeforeSuite action to your context file
+containing a setTransformValues() action.
+You can add custom placeholders by using an array.
+#### example context rules:
+```php
+    /**
+     * @BeforeScenario
+     */
+    public function createTransformValues(){
+        $this->setTransformValues(array(
+            "<test>" => "A simple test value",
+            "<timestamp>" => time()
+        ));
+    }
+```
+
+#### Example feature:
+```php
+  @test
+  Scenario: Sign up for the newsletter
+    When I fill in "email" with "test+<timestamp>+behat@bug-hunter.nl"
+    And I press "Sign up"
+```
+
+#### Example Output:
+```php
+  @test
+  Scenario: Sign up for the newsletter
+    When I fill in "email" with "test+1461777849+behat@bug-hunter.nl"
+    And I press "Sign up"
+```
+
+
+
+
 ## Todo:
 - save html on failures
 - save REST responses in testreport
