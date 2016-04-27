@@ -20,6 +20,9 @@ class BehatFormatterContext extends MinkContext implements SnippetAcceptingConte
     {
     private $currentScenario;
     protected static $currentSuite;
+    public static $time;
+    public static $date;
+    public static $transformArray;
 
     /**
      * @BeforeFeature
@@ -101,5 +104,31 @@ class BehatFormatterContext extends MinkContext implements SnippetAcceptingConte
             file_put_contents(implode(DIRECTORY_SEPARATOR, array($temp_destination, $fileName)), $htmlContent);
         }
 
+    }
+
+    public function setTransformValues($customArray = ''){
+        self::$time = time();
+        self::$date = date('Ymd', self::$time);
+        self::$transformArray = array(
+            "<time>" => self::$time,
+            "<date>" => self::$date,
+        );
+        foreach ((array)$customArray as $key => $value){
+            self::$transformArray[$key] = $value;
+        }
+    }
+
+    /**
+     * @Transform /^(.*)$/
+     */
+    public function transformStep($value){
+        return $this->transform($value);
+    }
+
+    public static function transform($stepText){
+        foreach ((array)self::$transformArray as $key => $value){
+            $stepText = str_replace($key, $value, $stepText);
+        }
+        return $stepText;
     }
 }
