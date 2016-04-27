@@ -6,6 +6,8 @@ Behat 3 extension for generating AWESOME reports from your test results.
 
 ### Twig report
 
+Live demo available at: http://www.bug-hunter.nl/testreport/index.html (daily generated)
+
 ![Twig Screenshot](http://i.imgur.com/SlJuhq3.png)
 
 ## Features
