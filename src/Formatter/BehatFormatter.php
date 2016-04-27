@@ -699,7 +699,7 @@ class BehatFormatter implements Formatter {
         /** @var Step $step */
         $step = new Step();
         $step->setKeyword($event->getStep()->getKeyword());
-        $step->setText($event->getStep()->getText());
+        $step->setText(Context\BehatFormatterContext::transform($event->getStep()->getText()));
         $step->setLine($event->getStep()->getLine());
         $step->setArguments($event->getStep()->getArguments());
         $step->setResult($result);
