@@ -64,7 +64,7 @@ class BehatFormatterContext extends MinkContext implements SnippetAcceptingConte
             }
 
             //create filename string
-            $fileName = $currentSuite.".".basename($scope->getFeature()->getFile()).'.'.$scope->getStep()->getLine().'.png';
+            $fileName = $currentSuite.".".basename($scope->getFeature()->getFile()).'.'.$this->currentScenario->getLine().'.'.$scope->getStep()->getLine().'.png';
             $fileName = str_replace('.feature', '', $fileName);
 
             /*
