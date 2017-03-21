@@ -97,7 +97,7 @@ default:
 
 ## Configuration
 
-* `output_path` - The location where Behat will save the HTML reports. The path defined here is relative to `%paths.base%` and, when omitted, will be default set to the same path.
+* `output_path` - The location where Behat will save the HTML reports. The path defined here is relative to `%paths.base%` and, when omitted, will be default set to the same path.  If you require a dynamic component, the variable `%timestamp%` is available to add to your path (e.g.: `%paths_base%/build_%timestamp%` would convert to something like `[paths base]/build_1490114334`).
 * `renderer` - The engine that Behat will use for rendering, thus the types of report format Behat should output (multiple report formats are allowed, separate them by commas). Allowed values are:
  * *Behat2* for generating HTML reports like they were generated in Behat 2.
  * *Twig* A new and more modern format based on Twig.
