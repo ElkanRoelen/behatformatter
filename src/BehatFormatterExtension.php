@@ -84,6 +84,7 @@ class BehatFormatterExtension implements ExtensionInterface {
     $definition->addArgument($config['show_tags']);
 
     $definition->addArgument('%paths.base%');
+    $container->setParameter('timestamp', time());
     $container->setDefinition("html.formatter", $definition)
       ->addTag("output.formatter");
   }
