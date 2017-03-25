@@ -295,7 +295,7 @@
                                                                     {% endif %}
                                                                     {% if printStepArgs is not null %}
                                                                        {% for argument in step.arguments %}
-                                                                          <p style="padding-left:0.5em; overflow-x:scroll; white-space:nowrap; font-family:monospace">{{ argument | nl2br }}</p>
+                                                                          <pre style="padding-left:0.5em; overflow-x:scroll; font-family:monospace">{{ argument }}</pre>
                                                                        {% endfor %}
                                                                     {% endif %}
                                                                     {% if step.exception is not null %}
