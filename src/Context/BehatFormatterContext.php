@@ -82,7 +82,13 @@ class BehatFormatterContext extends MinkContext implements SnippetAcceptingConte
                 mkdir($temp_destination, 0777, true);
             }
 
-            if (!is_writable($temp_destination) || !is_writable($temp_destination . DIRECTORY_SEPARATOR . $fileName)) {
+            $fullFileName = $temp_destination . DIRECTORY_SEPARATOR . $fileName;
+
+            /* Check is directory writable or file exists and can't be overwritten
+             * Of course I know that is_writable checks file existing but
+             * it returns FALSE if file doesn't exist
+             */
+            if (!is_writable($temp_destination) || (file_exists($fullFileName) && !is_writable($fullFileName))) {
                 $temp_destination = null;
             }
 
@@ -105,7 +111,10 @@ class BehatFormatterContext extends MinkContext implements SnippetAcceptingConte
                 mkdir($temp_destination, 0777, true);
             }
 
-            file_put_contents(implode(DIRECTORY_SEPARATOR, array($temp_destination, $fileName)), $htmlContent);
+            $fullFileName = implode(DIRECTORY_SEPARATOR, array($temp_destination, $fileName));
+            if (is_writable($temp_destination) || (file_exists($fullFileName) && is_writable($fullFileName))) {
+                file_put_contents($fullFileName, $htmlContent);
+            }
         }
 
     }
