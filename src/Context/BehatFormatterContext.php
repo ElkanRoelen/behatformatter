@@ -82,6 +82,10 @@ class BehatFormatterContext extends MinkContext implements SnippetAcceptingConte
                 mkdir($temp_destination, 0777, true);
             }
 
+            if (!is_writable($temp_destination) || !is_writable($temp_destination . DIRECTORY_SEPARATOR . $fileName)) {
+                $temp_destination = null;
+            }
+
             $this->saveScreenshot($fileName, $temp_destination);
         }
 
