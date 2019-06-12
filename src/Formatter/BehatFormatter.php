@@ -238,6 +238,7 @@ class BehatFormatter implements Formatter {
             'tester.scenario_tested.after'     => 'onAfterScenarioTested',
             'tester.outline_tested.before'     => 'onBeforeOutlineTested',
             'tester.outline_tested.after'      => 'onAfterOutlineTested',
+            'tester.example_tested.before'     => 'onBeforeExampleScenarioTested',
             'tester.step_tested.after'         => 'onAfterStepTested',
         );
     }
@@ -660,7 +661,6 @@ class BehatFormatter implements Formatter {
         $scenario->setTags($event->getOutline()->getTags());
         $scenario->setLine($event->getOutline()->getLine());
         $this->currentScenario = $scenario;
-        $this->currentExampleCount = 0;
         $this->currentExampleLines = array_map(function ($example) {
             return $example->getLine();
         }, $event->getOutline()->getExamples());
@@ -691,6 +691,18 @@ class BehatFormatter implements Formatter {
 
         $print = $this->renderer->renderAfterOutline($this);
         $this->printer->writeln($print);
+    }
+
+    /**
+     * @param BeforeScenarioTested $event
+     */
+    public function onBeforeExampleScenarioTested(BeforeScenarioTested $event) {
+      if (NULL === $this->currentExampleCount) {
+        $this->currentExampleCount = 0;
+      }
+      else {
+        $this->currentExampleCount++;
+      }
     }
 
     /**
@@ -746,7 +758,7 @@ class BehatFormatter implements Formatter {
             }
         }
         if(($step->getResultCode() == "99") || ($step->getResult()->isPassed() && $step->getKeyword() === "Then")){
-            $scenarioLine = empty($this->currentExampleLines) ? $this->currentScenario->getLine() : $this->currentExampleLines[$this->currentExampleCount++];
+            $scenarioLine = empty($this->currentExampleLines) ? $this->currentScenario->getLine() : $this->currentExampleLines[$this->currentExampleCount];
             $screenshot = $event->getSuite()->getName().".".basename($event->getFeature()->getFile()).".$scenarioLine.".$event->getStep()->getLine().".png";
             $screenshot = str_replace('.feature', '', $screenshot);
 
