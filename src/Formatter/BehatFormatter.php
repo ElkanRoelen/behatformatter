@@ -688,6 +688,7 @@ class BehatFormatter implements Formatter {
         $this->currentScenario->setPassed($event->getTestResult()->isPassed());
         $this->currentFeature->addScenario($this->currentScenario);
         $this->currentExampleLines = null;
+        $this->currentExampleCount = null;
 
         $print = $this->renderer->renderAfterOutline($this);
         $this->printer->writeln($print);
