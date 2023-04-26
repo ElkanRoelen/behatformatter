@@ -541,9 +541,9 @@ class BehatFormatter implements Formatter {
     }
 
     /**
-     * @param AfterExerciseCompleted $event
+     * @param \Behat\Testwork\EventDispatcher\Event\AfterExerciseCompleted|\Behat\Testwork\EventDispatcher\Event\AfterExerciseAborted $event
      */
-    public function onAfterExercise(AfterExerciseCompleted $event)
+    public function onAfterExercise(ExerciseCompleted $event)
     {
 
         $this->timer->stop();
